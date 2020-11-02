@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aaa.mapper.GoodsMapper">
+
+    <!--添加数据-->
+    <insert id="insert" parameterType="goods">
+        insert goods(goodsName,produceDate,goodpic,typeId)
+		VALUES(#{goodsName},#{produceDate},#{goodpic},#{typeId})
+    </insert>
+
+    <!--查询所有书籍-->
+    <resultMap id="goodvos" type="goodsvo">
+        <id property="goodsId" column="goodsId"></id>
+        <association  column="goodsType" property="goodsType" javaType="GoodsType">
+            <id property="goodsTypeId" column="goodsTypeId"></id>
+        </association>
+    </resultMap>
+
+    <select id="SelectAll" resultMap="goodvos">
+        SELECT gs.*,gt.* from goods gs join goodsType gt on gs.typeId = gt.goodsTypeId order by gs.goodsId asc
+    </select>
+
+    <!--修改数据-->
+    <update id="update" parameterType="goods">
+        update goods set goodsName=#{goodsName} , produceDate=#{produceDate} , goodpic=#{goodpic} , typeId=#{typeId} where goodsId = #{goodsId}
+    </update>
+
+    <!--删除商品-->
+    <delete id="delete" parameterType="int">
+        delete from goods where goodsId = #{goodsId}
+    </delete>
+
+    <!--查询一个商品-->
+    <select id="QueryOne" resultMap="goodvos" parameterType="int">
+        SELECT gs.*,gt.* from goods gs, goodsType gt where gs.typeId = gt.goodsTypeId and gs.goodsId=#{goodsId} order by gs.goodsId asc
+    </select>
+
+    <!--分页查询-->
+    <select id="findBypage" resultMap="goodvos" parameterType="SelectGoods">
+        SELECT gs.*,gt.* from goods gs, goodsType gt
+		where gs.typeId = gt.goodsTypeId
+		<trim>
+            <if test="goodsId != null">
+                and gs.goodsId = #{goodsId}
+            </if>
+            <if test="goodsName != null">
+                and gs.goodsName like concat('%',#{goodsName},'%')
+            </if>
+            <if test="typeId != null">
+                and gs.typeId = #{typeId}
+            </if>
+        </trim>
+        order by gs.goodsId asc	LIMIT #{start},#{pageSize}
+    </select>
+
+    <!--分页查询总条数-->
+    <select id="findByPageNum" resultType="java.lang.Long" parameterType="SelectGoods">
+        SELECT count(gs.goodsId) from goods gs, goodsType gt
+        where gs.typeId = gt.goodsTypeId
+        <trim>
+            <if test="goodsId != null">
+                and gs.goodsId = #{goodsId}
+            </if>
+            <if test="goodsName != null">
+                and gs.goodsName like concat('%',#{goodsName},'%')
+            </if>
+            <if test="typeId != null">
+                and gs.typeId = #{typeId}
+            </if>
+        </trim>
+        order by gs.goodsId asc
+    </select>
+
+</mapper>

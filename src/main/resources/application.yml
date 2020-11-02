@@ -1,0 +1,33 @@
+server:
+  port: 8081
+  tomcat:
+    uri-encoding: UTF-8
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/bookmanager?characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true
+    username: root
+    password: 123456
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+  jackson:
+    date-format: yyyy-MM-dd
+    time-zone: GMT+8
+mybatis:
+  configuration:
+    auto-mapping-behavior: full
+    use-column-label: true
+  mapper-locations: classpath:com/aaa/mapper/*.xml
+  type-aliases-package: com.aaa.pojo
+
+#显示SQL语句
+logging:
+  level:
+    com:
+      aaa:
+        Mapper: debug
+
+
+

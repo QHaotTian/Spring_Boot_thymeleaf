@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<input type="text" value="你好世界" th:value="${hello}">
+<h1 th:text="${hello}"></h1>
+<div th:text="${hello}"></div>
+<table>
+    <tr th:each="good:${goods}" th:object="${good}">
+        <td th:text="*{goodsId}"></td>
+        <td th:text="*{goodsName}"></td>
+        <td th:text="*{produceDate}"></td>
+        <td th:text="*{goodpic}"></td>
+        <td>
+            <img th:src="@{|/photo/${good.goodpic}|}" width="66px" height="66px">
+        </td>
+        <td th:text="*{goodsType.goodsTypeName}"></td>
+    </tr>
+</table>
+
+</body>
+</html>

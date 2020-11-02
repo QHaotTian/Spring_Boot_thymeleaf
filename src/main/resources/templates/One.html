@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<input type="text" th:value="${goods.goodsId}"/>
+<input type="text" th:value="${goods.goodsName}"/>
+<input type="text" th:value="${goods.produceDate}"/>
+<input type="text" th:value="${goods.goodpic}"/>
+<input type="text" th:value="${goods.goodsType.goodsTypeName}"/>
+<form th:object="${goods}">
+    <input type="text" th:value="*{goodsId}"/>
+    <input type="text" th:value="*{goodsName}"/>
+    <input type="text" th:value="*{produceDate}"/>
+    <input type="text" th:value="*{goodpic}"/>
+    <input type="text" th:value="*{goodsType.goodsTypeName}"/>
+</form>
+</body>
+</html>
